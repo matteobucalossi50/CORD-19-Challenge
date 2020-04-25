@@ -4,6 +4,7 @@ Use pre-trained model and sciSpacy to extract sentence embeddings with Sentence-
 
 # import libraries
 import spacy
+import pandas as pd
 import scispacy
 from sentence_transformers import SentenceTransformer
 
@@ -21,12 +22,14 @@ def sent_embeddings(df):
         embeddings.append(embeds)
     return embeddings
 
+# import dataframe
+df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this works
 
-#call it
+# add embeddings to dataframe
 df_covid['abs_embeddings'] = sent_embeddings(df_covid['abstract'])
 df_covid['body_embeddings'] = sent_embeddings(df_covid['body_text'])
 
-# df_covid.head()
+df_covid.head()
 
 
 
