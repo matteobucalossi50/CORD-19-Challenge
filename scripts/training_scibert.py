@@ -36,7 +36,7 @@ model.save_pretrained('models/')   # not sure if this the right way to save tune
 tokenizer.save_pretrained('models/')
 
 # select one Transformer
-model_name = 'models/scibert_scivocab_uncased'
+model_name = 'models/scibert_scivocab_uncased' # same not sure i'm calling the model right here
 
 # Read the dataset
 batch_size = 16
@@ -72,7 +72,7 @@ dev_dataloader = DataLoader(dev_data, shuffle=False, batch_size=batch_size)
 evaluator = EmbeddingSimilarityEvaluator(dev_dataloader)
 
 # Configure the training
-num_epochs = 1
+num_epochs = 2
 
 warmup_steps = math.ceil(len(train_dataloader) * num_epochs / batch_size * 0.1) #10% of train data for warm-up
 logging.info("Warmup-steps: {}".format(warmup_steps))
@@ -98,3 +98,6 @@ test_dataloader = DataLoader(test_data, shuffle=False, batch_size=batch_size)
 evaluator = EmbeddingSimilarityEvaluator(test_dataloader)
 
 model.evaluate(evaluator)
+
+
+# I hope model is saved to call it later somewhere lol
