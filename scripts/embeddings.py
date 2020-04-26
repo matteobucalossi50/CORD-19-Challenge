@@ -13,14 +13,15 @@ model = SentenceTransformer('bert-large-nli-mean-tokens') #this or the model we 
 
 # get sent embeddings for each document
 def sent_embeddings(df):
-    nlp = spacy.load('en_core_sci_md')
+    # nlp = spacy.load('en_core_sci_md') # not sure if needed cause not sure we have to embed by sents, prolly just by doc
     embeddings = []
     for item in df:
-        doc = nlp(item)
-        sentences = list(doc.sents)
-        embeds = model.encode(sentences)
+        # doc = nlp(item)
+        # sentences = list(doc.sents)
+        embeds = model.encode(item)
         embeddings.append(embeds)
     return embeddings
+
 
 # import dataframe
 df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this works
@@ -28,6 +29,9 @@ df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this
 # add embeddings to dataframe
 df_covid['abs_embeddings'] = sent_embeddings(df_covid['abstract'])
 df_covid['body_embeddings'] = sent_embeddings(df_covid['body_text'])
+
+# save dataframe
+df_covid.to_pickle('./data/preprocessed_dataframe.pkl')
 
 df_covid.head()
 

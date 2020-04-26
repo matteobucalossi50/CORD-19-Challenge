@@ -28,15 +28,15 @@ logging.basicConfig(format='%(asctime)s - %(message)s',
 #### /print debug information to stdout
 
 # download trained sciBERT model
-tokenizer = AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')
-model = AutoModel.from_pretrained('allenai/scibert_scivocab_uncased')
+# tokenizer = AutoTokenizer.from_pretrained('allenai/scibert_scivocab_uncased')
+# model = AutoModel.from_pretrained('allenai/scibert_scivocab_uncased')
 
 # save model
-model.save_pretrained('models/')   # not sure if this the right way to save tuned models or right use of path
-tokenizer.save_pretrained('models/')
+# model.save_pretrained('models/')   # not sure if this the right way to save tuned models or right use of path
+# tokenizer.save_pretrained('models/')
 
 # select one Transformer
-model_name = 'models/scibert_scivocab_uncased' # same not sure i'm calling the model right here
+model_name = 'allenai/scibert_scivocab_uncased' # same not sure i'm calling the model right here
 
 # Read the dataset
 batch_size = 16
