@@ -27,18 +27,15 @@ def sem_search(query, model, corpus, corpus_embeddings):
 
         output = []
         for idx, distance in results[0:closest_n]:
-            output.append([corpus.iloc[idx, 1].strip(), corpus.iloc[idx, 2].strip(), corpus.iloc[idx, 3].strip(),
+            output.append([corpus.iloc[idx, 1].strip(), corpus.iloc[idx, 3].strip(),
                            corpus.iloc[idx, 4].strip(), corpus.iloc[idx, 5].strip(), round(1-distance, 4)])
 
 
-        table = prettytable.PrettyTable(['Abstract','Text','Authors','Title','Journal','Score'])
+        table = prettytable.PrettyTable(['Abstract','Authors','Title','Journal','Score'])
         for i in output:
             abstract = i[0]
             abstract = textwrap.fill(abstract, width=75)
             abstract = abstract + '\n\n'
-            text = i[1]
-            text = textwrap.fill(text, width=75)
-            text = text + '\n\n'
             author = i[2]
             author = textwrap.fill(author, width=75)
             author = author + '\n\n'
@@ -49,7 +46,7 @@ def sem_search(query, model, corpus, corpus_embeddings):
             journal = textwrap.fill(journal, width=75)
             journal = journal + '\n\n'
             distance = i[5]
-            table.add_row([abstract, text, author, title, journal, distance])
+            table.add_row([abstract, author, title, journal, distance])
         print("\n\n======================\n\n")
         print("\nTop 5 most similar sentences in corpus:")
         print(str(table))
