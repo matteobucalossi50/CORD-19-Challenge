@@ -32,3 +32,5 @@ for query, query_embedding in zip(queries, query_embeddings):
 
 
 # make them function and output a prettytable.PrettyTable
+
+
