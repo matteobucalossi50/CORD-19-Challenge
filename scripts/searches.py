@@ -11,8 +11,9 @@ warnings.simplefilter('ignore')
 # load corpus embeddings
 
 # queries
-queries = []
-#query_embeddings
+
+queries = [query]
+#query_embeddings =
 
 # find closest sentences of corpus for each query sentnece on cosine similarity
 closest_n = 5

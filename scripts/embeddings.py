@@ -22,6 +22,7 @@ def sent_embeddings(df):
         embeddings.append(embeds)
     return embeddings
 
+
 # import dataframe
 df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this works
 
