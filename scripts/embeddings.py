@@ -13,7 +13,7 @@ model = SentenceTransformer('bert-large-nli-mean-tokens') #this or the model we 
 
 # get sent embeddings for each document
 def sent_embeddings(df):
-    # nlp = spacy.load('en_core_sci_md')
+    # nlp = spacy.load('en_core_sci_md') # not sure if needed cause not sure we have to embed by sents, prolly just by doc
     embeddings = []
     for item in df:
         # doc = nlp(item)

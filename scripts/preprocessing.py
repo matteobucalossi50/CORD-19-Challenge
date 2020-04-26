@@ -31,7 +31,7 @@ metadata = pd.read_csv(metadata_path)
 metadata.head()
 metadata.info()
 
-all_json = glob.glob(f'{root_path}/**/*.json', recursive=True)
+all_json = glob.glob(f'{root_path}/**/*.json', recursive=True)   # here imo it's where shit happens
 len(all_json)
 
 # json reader calss
