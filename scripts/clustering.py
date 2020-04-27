@@ -64,11 +64,11 @@ def read_directory_files(path):
             file_texts['body_text'].append(None)
         else:
             file_texts['body_text'].append(data['body_text'])
-        
-            
+
+
     df=pd.DataFrame(data=file_texts)
     return df
-    
+
 
 # may run a little bit longer
 json_text = read_directory_files(json_path)
@@ -85,7 +85,7 @@ print(json_text.shape)
 
 
 
-# import necessary libraries 
+# import necessary libraries
 import nltk.data
 import nltk
 nltk.download('punkt')
@@ -134,12 +134,12 @@ def Encode(data):
         if i is None:
             continue
         else:
-            for i2 in i: 
+            for i2 in i:
                 if i2['text'] is None:
                   value.append(None)
                 else:
                   value.append(list(i2['text'].split()))
-                    
+
     return value
 
 
@@ -164,7 +164,7 @@ def EncodeTFIDF(data, maxfeature):
     #word=vectorizer.get_feature_names()
     #print(word)
   except ValueError:
-    pass                    
+    pass
   return value
 
 
@@ -177,6 +177,12 @@ print(bodytext_vect.shape)
 
 
 
+##############################################################################
+################### models and algorithms to follow ##########################
+##############################################################################
+
+
+##############################################################################
 # Dimensions Reduction using UAMP
 
 get_ipython().system('pip install umap')
@@ -195,10 +201,8 @@ print(clusterable_embedding.shape)
 print(clusterable_embedding)
 
 
+##############################################################################
 # Clustering using HDBSCAN
-
-get_ipython().system('pip install hdbscan')
-
 
 import hdbscan
 import numpy as np
@@ -208,10 +212,8 @@ import pandas as pd
 
 #clusterable_embedding
 
-
 clusterer = hdbscan.HDBSCAN(min_cluster_size=2, gen_min_span_tree=True)
-clusterer=clusterer.fit(clusterable_embedding)
- 
+clusterer = clusterer.fit(clusterable_embedding)
 
 #Build the minimum spanning tree
 clusterer.minimum_spanning_tree_.plot(edge_cmap='viridis',
@@ -219,10 +221,8 @@ clusterer.minimum_spanning_tree_.plot(edge_cmap='viridis',
                                       node_size=80,
                                       edge_linewidth=2)
 
-
 #Build the cluster hierarchy
 clusterer.single_linkage_tree_.plot(cmap='viridis', colorbar=True)
-
 
 #Condense the cluster tree
 clusterer.condensed_tree_.plot()
@@ -247,29 +247,26 @@ cluster_member_colors = [sns.desaturate(x, p) for x, p in
 plt.scatter(*clusterable_embedding.T, s=50, linewidth=0, c=cluster_member_colors, alpha=0.25)
 
 
-clusterable_embedding.T[0]
-clusterable_embedding.T[1]
+print(clusterable_embedding.T[0])
+print(clusterable_embedding.T[1])
 
-
-clusterer.labels_
-
+print(clusterer.labels_)
 
 len(clusterer.labels_)
 
-
-json_text['cluster_textbody']=clusterer.labels_
+json_text['cluster_textbody'] = clusterer.labels_
 
 max(clusterer.labels_)
 
-
 max(json_text['cluster_textbody'])
-
 
 grouped=json_text.groupby('cluster_abstract')
 for gp_name, gp in grouped:
     display(gp)
 
 
+
+##############################################################################
 # Topic Modeling on Each Cluster using LDA
 
 from sklearn.decomposition import LatentDirichletAllocation
@@ -289,13 +286,15 @@ def print_topics(model, count_vectorizer, n_top_words):
         print("\nTopic #%d:" % topic_idx)
         print(" ".join([words[i]
                         for i in topic.argsort()[:-n_top_words - 1:-1]]))
-        
+
 #Tweak the two parameters below
 number_topics = 5
 number_words = 10
+
 #Create and fit the LDA model imported from sklearn library
 lda = LDA(n_components=number_topics, n_jobs=1)
 lda.fit(count_data)
+
 #Print the topics found by the LDA model
 print("Topics found via LDA:")
 print_topics(lda, count_vectorizer, number_words)
@@ -314,7 +313,7 @@ def print_top_words(model, feature_names, n_top_words):
                              for i in topic.argsort()[:-n_top_words - 1:-1]])
         print(message)
     print()
-    
+
 print_top_words(lda_tf, tfidf_feature_names, 25)
 
 
@@ -334,6 +333,7 @@ def display_topics(model, feature_names, no_top_words):
         topics.append(topic_words)
     return topics
 
+
 no_top_words = 5
 
 topics_lda=display_topics(lda, tf_feature_names, no_top_words)
@@ -349,7 +349,7 @@ for gp_name, gp in grouped:
     display(gp)
 
 vectorizers = []
-    
+
 for ii in range(0, 20):
     # Creating a vectorizer
     vectorizers.append(CountVectorizer(min_df=5, max_df=0.9, stop_words='english', lowercase=True, token_pattern='[a-zA-Z\-][a-zA-Z\-]{2,}'))
@@ -377,15 +377,15 @@ for ii in range(0, 20):
     # Latent Dirichlet Allocation Model
     lda = LatentDirichletAllocation(n_components=NUM_TOPICS_PER_CLUSTER, max_iter=10, learning_method='online',verbose=False, random_state=42)
     lda_models.append(lda)
-    
-lda_models[0]
+
+print(lda_models[0])
 
 
 clusters_lda_data = []
 
 for current_cluster, lda in enumerate(lda_models):
     # print("Current Cluster: " + str(current_cluster))
-    
+
     if vectorized_data[current_cluster] != None:
         clusters_lda_data.append((lda.fit_transform(vectorized_data[current_cluster])))
 
@@ -393,15 +393,15 @@ for current_cluster, lda in enumerate(lda_models):
 def selected_topics(model, vectorizer, top_n=3):
     current_words = []
     keywords = []
-    
+
     for idx, topic in enumerate(model.components_):
         words = [(vectorizer.get_feature_names()[i], topic[i]) for i in topic.argsort()[:-top_n - 1:-1]]
         for word in words:
             if word[0] not in current_words:
                 keywords.append(word)
                 current_words.append(word[0])
-                
-    keywords.sort(key = lambda x: x[1])  
+
+    keywords.sort(key = lambda x: x[1])
     keywords.reverse()
     return_values = []
     for ii in keywords:
@@ -416,6 +416,5 @@ for current_vectorizer, lda in enumerate(lda_models):
     if vectorized_data[current_vectorizer] != None:
         all_keywords.append(selected_topics(lda, vectorizers[current_vectorizer]))
 
-
-all_keywords[0][:10]
+print(all_keywords[0][:10])
 
