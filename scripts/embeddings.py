@@ -9,7 +9,7 @@ import scispacy
 from sentence_transformers import SentenceTransformer
 
 # download pre-trained model
-model = SentenceTransformer('bert-large-nli-mean-tokens') #this or the model we trained and saved
+model = SentenceTransformer('training_nli_allenai-scibert_scivocab_uncased-2020-04-26_13-22-06') #this or the model we trained and saved
 
 # get sent embeddings for each document
 def sent_embeddings_wr(corpus, model):
