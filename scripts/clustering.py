@@ -181,11 +181,13 @@ print(bodytext_vect.shape)
 ################### models and algorithms to follow ##########################
 ##############################################################################
 
+# import dataframe
+df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this works
 
 ##############################################################################
 # Dimensions Reduction using UAMP
 
-get_ipython().system('pip install umap')
+#get_ipython().system('pip install umap')
 
 import umap.umap_ as umap
 import matplotlib.pyplot as plt
@@ -194,7 +196,7 @@ import matplotlib.pyplot as plt
 reducer = umap.UMAP(n_neighbors = 5)
 
 
-clusterable_embedding = reducer.fit_transform(bodytext_vect.toarray())
+clusterable_embedding = reducer.fit_transform(df_covid['abs_embeddings'].toarray())
 plt.figure(figsize=(12,8))
 plt.scatter(clusterable_embedding[:,0],clusterable_embedding[:,1])
 print(clusterable_embedding.shape)
@@ -260,8 +262,8 @@ max(clusterer.labels_)
 
 max(json_text['cluster_textbody'])
 
-grouped=json_text.groupby('cluster_abstract')
-for gp_name, gp in grouped:
+grouped = json_text.groupby('cluster_abstract')
+for gp_name, gp in grouped[:20]:
     display(gp)
 
 
