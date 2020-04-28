@@ -48,7 +48,7 @@ def sem_search(query, model, corpus, corpus_embeddings):
             distance = i[5]
             table.add_row([abstract, author, title, journal, distance])
         print("\n\n======================\n\n")
-        print("\nTop 5 most similar sentences in corpus:")
+        print("\nTop 5 most similar articles in corpus:")
         print(str(table))
         print("\n\n======================\n\n")
 
