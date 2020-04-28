@@ -9,7 +9,7 @@ import scispacy
 from sentence_transformers import SentenceTransformer
 
 # download pre-trained model
-model = SentenceTransformer('training_nli_allenai-scibert_scivocab_uncased-2020-04-26_13-22-06') #this or the model we trained and saved
+# model = SentenceTransformer('training_nli_allenai-scibert_scivocab_uncased-2020-04-26_13-22-06') #this or the model we trained and saved
 
 # get sent embeddings for each document
 def sent_embeddings_wr(corpus, model):
@@ -30,7 +30,7 @@ def sent_embeddings(corpus, model):
 
 
 # import dataframe
-df_covid = pd.read_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')  # hopefully this works
+# df_covid = pd.read_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')  # hopefully this works
 
 # convert to list for transformer
 # def list_conv(df):
@@ -43,13 +43,13 @@ df_covid = pd.read_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_d
 # df_covid['body_text'] = (df_covid['body_text']).tolist()
 
 # add embeddings to dataframe
-df_covid['abs_embeddings'] = sent_embeddings(df_covid['abstract'], model)
-df_covid['body_embeddings'] = sent_embeddings(df_covid['body_text'], model)
+# df_covid['abs_embeddings'] = sent_embeddings(df_covid['abstract'], model)
+# df_covid['body_embeddings'] = sent_embeddings(df_covid['body_text'], model)
 
 # save dataframe
-df_covid.to_pickle('./data/preprocessed_dataframe.pkl')
+# df_covid.to_pickle('./data/preprocessed_dataframe.pkl')
 
-df_covid.head()
+# df_covid.head()
 
 
 

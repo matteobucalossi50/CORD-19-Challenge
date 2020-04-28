@@ -7,32 +7,32 @@ import json
 import spacy
 import tqdm
 from sklearn.metrics.pairwise import cosine_distances, manhattan_distances
-import matplotlib.pyplot as plt
-plt.style.use('ggplot')
+# import matplotlib.pyplot as plt
+# plt.style.use('ggplot')
 
 #nlp = spacy.load("en_core_sci_lg")
 
-import nltk.data
-import re
-from nltk.tokenize import TreebankWordTokenizer
-from nltk.tokenize import word_tokenize
-sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
-treebank_tokenizer = TreebankWordTokenizer()
-nltk.download('stopwords')
-stop_words = nltk.corpus.stopwords.words('english')
-from nltk.stem.porter import *
-porter_stemmer = PorterStemmer()
+# import nltk.data
+# import re
+# from nltk.tokenize import TreebankWordTokenizer
+# from nltk.tokenize import word_tokenize
+# sentence_tokenizer = nltk.data.load('tokenizers/punkt/english.pickle')
+# treebank_tokenizer = TreebankWordTokenizer()
+# nltk.download('stopwords')
+# stop_words = nltk.corpus.stopwords.words('english')
+# from nltk.stem.porter import *
+# porter_stemmer = PorterStemmer()
 
 
 # directories and paths
-root_path = '/Users/Matteo/Desktop/ML1/project/data/'
-metadata_path = f'{root_path}/all_sources_metadata_2020-03-13.csv'
-metadata = pd.read_csv(metadata_path)
-metadata.head()
-metadata.info()
+# root_path = '/Users/Matteo/Desktop/ML1/project/data/'
+# metadata_path = f'{root_path}/all_sources_metadata_2020-03-13.csv'
+# metadata = pd.read_csv(metadata_path)
+# metadata.head()
+# metadata.info()
 
-all_json = glob.glob(f'{root_path}/**/*.json', recursive=True)   # here imo it's where shit happens
-print(len(all_json))
+# all_json = glob.glob(f'{root_path}/**/*.json', recursive=True)   # here imo it's where shit happens
+# print(len(all_json))
 
 # json reader calss
 class FileReader:
@@ -52,8 +52,8 @@ class FileReader:
             self.body_text = '\n'.join(self.body_text)
     def __repr__(self):
         return f'{self.paper_id}: {self.abstract}... {self.body_text[:500]}...'
-first_row = FileReader(all_json[0])
-print(first_row)
+# first_row = FileReader(all_json[0])
+# print(first_row)
 
 
 # dataframe creation
@@ -88,8 +88,8 @@ def read_directory_files(path):
     df_covid = pd.DataFrame(dict_, columns=['paper_id', 'abstract', 'body_text', 'authors', 'title', 'journal'])
     return df_covid
 
-df_covid = read_directory_files(all_json)
-df_covid.head()
+# df_covid = read_directory_files(all_json)
+# df_covid.head()
 
 
 # cleaning text
@@ -97,19 +97,19 @@ def clean_text(text):
     clean = re.sub(r"[^A-Za-z0-9.,']", " ", text)
     return clean.lower()
 
-# clean abstract and body_text
-cleaned_abstract = []
-for item in df_covid['abstract']:
-    item = clean_text(item)
-    cleaned_abstract.append(item)
-df_covid['abstract'] = cleaned_abstract
+# # clean abstract and body_text
+# cleaned_abstract = []
+# for item in df_covid['abstract']:
+#     item = clean_text(item)
+#     cleaned_abstract.append(item)
+# df_covid['abstract'] = cleaned_abstract
 
-#clean body_text
-cleaned_body = []
-for item in df_covid['body_text']:
-    item = clean_text(item)
-    cleaned_body.append(item)
-df_covid['body_text'] = cleaned_body
+# #clean body_text
+# cleaned_body = []
+# for item in df_covid['body_text']:
+#     item = clean_text(item)
+#     cleaned_body.append(item)
+# df_covid['body_text'] = cleaned_body
 
 
 
@@ -137,6 +137,6 @@ df_covid['body_text'] = cleaned_body
 #     body_tokens.append(item)
 # df_covid['body_tokens'] = body_tokens
 
-pd.DataFrame([[df_covid.shape[0], df_covid.shape[1]]], columns=['# rows', '# columns'])
-# save dataframe
-df_covid.to_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')
+# pd.DataFrame([[df_covid.shape[0], df_covid.shape[1]]], columns=['# rows', '# columns'])
+# # save dataframe
+# df_covid.to_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')

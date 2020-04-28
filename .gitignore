@@ -1,4 +1,6 @@
-#ignore dataset
+#ignore datasets
+data/
+scripts/.idea/
 **/CORD-19-research-challenge
 .DS_Store
 
