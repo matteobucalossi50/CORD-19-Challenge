@@ -54,12 +54,12 @@ def sem_search(query, model, corpus, corpus_embeddings):
 
 
 # load corpus
-df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')
+df_covid = pd.read_pickle('preprocessed_dataframe_withabs.pkl')
 
 # asking the user
 query = input('What would you like to know from CORD-19? ')
 print('\nUse abstracts:')
-sem_search(query, embedder, df_covid, df_covid['abs_embeddings'])
+print(sem_search(query, embedder, df_covid, df_covid['abs_embeddings']))
 
 print('\nUse full text:')
 sem_search(query, embedder, df_covid, df_covid['body_embeddings'])
