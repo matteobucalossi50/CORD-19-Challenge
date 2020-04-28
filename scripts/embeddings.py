@@ -30,7 +30,7 @@ def sent_embeddings(corpus, model):
 
 
 # import dataframe
-df_covid = pd.read_pickle('./data/preprocessed_dataframe.pkl')  # hopefully this works
+df_covid = pd.read_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')  # hopefully this works
 
 # convert to list for transformer
 # def list_conv(df):

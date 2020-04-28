@@ -25,13 +25,13 @@ porter_stemmer = PorterStemmer()
 
 
 # directories and paths
-root_path = os.getcwd()
-# metadata_path = f'{root_path}/all_sources_metadata_2020-03-13.csv'
-# metadata = pd.read_csv(metadata_path)
-# metadata.head()
-# metadata.info()
+root_path = '/Users/Matteo/Desktop/ML1/project/data/'
+metadata_path = f'{root_path}/all_sources_metadata_2020-03-13.csv'
+metadata = pd.read_csv(metadata_path)
+metadata.head()
+metadata.info()
 
-all_json = glob.glob(root_path+'/**/*.json', recursive=True)   # here imo it's where shit happens
+all_json = glob.glob(f'{root_path}/**/*.json', recursive=True)   # here imo it's where shit happens
 print(len(all_json))
 
 # json reader calss
@@ -52,68 +52,68 @@ class FileReader:
             self.body_text = '\n'.join(self.body_text)
     def __repr__(self):
         return f'{self.paper_id}: {self.abstract}... {self.body_text[:500]}...'
-# first_row = FileReader(all_json[0])
-# print(first_row)
+first_row = FileReader(all_json[0])
+print(first_row)
 
 
-# # dataframe creation
-# def read_directory_files(path):
-#     dict_ = {'paper_id': [], 'abstract': [], 'body_text': [], 'authors': [], 'title': [], 'journal': []}
-#     for idx, entry in enumerate(path):
-#         content = FileReader(entry)
-#
-#         # get metadata information
-#         meta_data = metadata.loc[metadata['sha'] == content.paper_id]
-#
-#         # no metadata, skip this paper
-#         if len(meta_data) == 0:
-#             continue
-#
-#         dict_['paper_id'].append(content.paper_id)
-#         dict_['abstract'].append(content.abstract)
-#         dict_['body_text'].append(content.body_text)
-#
-#         # get metadata information
-#         meta_data = metadata.loc[metadata['sha'] == content.paper_id]
-#
-#         # add the authors
-#         dict_['authors'].append(meta_data['authors'].values[0])
-#
-#         # add the title
-#         dict_['title'].append(meta_data['title'].values[0])
-#
-#         # add the journal
-#         dict_['journal'].append(meta_data['journal'].values[0])
-#
-#     df_covid = pd.DataFrame(dict_, columns=['paper_id', 'abstract', 'body_text', 'authors', 'title', 'journal'])
-#     return df_covid
-#
-# df_covid = read_directory_files(all_json)
-# df_covid.head()
-#
-#
-# # cleaning text
-# def clean_text(text):
-#     clean = re.sub(r"[^A-Za-z0-9.,']", " ", text)
-#     return clean.lower()
-#
-# # clean abstract and body_text
-# cleaned_abstract = []
-# for item in df_covid['abstract']:
-#     item = clean_text(item)
-#     cleaned_abstract.append(item)
-# df_covid['abstract'] = cleaned_abstract
-#
-# #clean body_text
-# cleaned_body = []
-# for item in df_covid['body_text']:
-#     item = clean_text(item)
-#     cleaned_body.append(item)
-# df_covid['body_text'] = cleaned_body
-#
-#
-#
-# # tokeninzation with nltk - we do not actually use these for modeling as we get embeddings on spacy sentences
+# dataframe creation
+def read_directory_files(path):
+    dict_ = {'paper_id': [], 'abstract': [], 'body_text': [], 'authors': [], 'title': [], 'journal': []}
+    for idx, entry in enumerate(path):
+        content = FileReader(entry)
+
+        # get metadata information
+        meta_data = metadata.loc[metadata['sha'] == content.paper_id]
+
+        # no metadata, skip this paper
+        if len(meta_data) == 0:
+            continue
+
+        dict_['paper_id'].append(content.paper_id)
+        dict_['abstract'].append(content.abstract)
+        dict_['body_text'].append(content.body_text)
+
+        # get metadata information
+        meta_data = metadata.loc[metadata['sha'] == content.paper_id]
+
+        # add the authors
+        dict_['authors'].append(meta_data['authors'].values[0])
+
+        # add the title
+        dict_['title'].append(meta_data['title'].values[0])
+
+        # add the journal
+        dict_['journal'].append(meta_data['journal'].values[0])
+
+    df_covid = pd.DataFrame(dict_, columns=['paper_id', 'abstract', 'body_text', 'authors', 'title', 'journal'])
+    return df_covid
+
+df_covid = read_directory_files(all_json)
+df_covid.head()
+
+
+# cleaning text
+def clean_text(text):
+    clean = re.sub(r"[^A-Za-z0-9.,']", " ", text)
+    return clean.lower()
+
+# clean abstract and body_text
+cleaned_abstract = []
+for item in df_covid['abstract']:
+    item = clean_text(item)
+    cleaned_abstract.append(item)
+df_covid['abstract'] = cleaned_abstract
+
+#clean body_text
+cleaned_body = []
+for item in df_covid['body_text']:
+    item = clean_text(item)
+    cleaned_body.append(item)
+df_covid['body_text'] = cleaned_body
+
+
+
+# tokeninzation with nltk - we do not actually use these for modeling as we get embeddings on spacy sentences
 # def get_tokens(text):
 #     punkt_sentences = sentence_tokenizer.tokenize(text)
 #     sentences_words = [treebank_tokenizer.tokenize(sentence) for sentence in punkt_sentences]
@@ -122,7 +122,7 @@ class FileReader:
 #     stop_words = nltk.corpus.stopwords.words('english')
 #     all_tokens = [w for w in all_tokens if w not in stop_words]
 #     return all_tokens
-#
+
 # #tokenize abstract
 # abstract_tokens = []
 # for item in df_covid['abstract']:
@@ -136,7 +136,7 @@ class FileReader:
 #     item = get_tokens(item)
 #     body_tokens.append(item)
 # df_covid['body_tokens'] = body_tokens
-#
-#
-# # save dataframe
-# df_covid.to_pickle('./data/preprocessed_dataframe.pkl')
+
+pd.DataFrame([[df_covid.shape[0], df_covid.shape[1]]], columns=['# rows', '# columns'])
+# save dataframe
+df_covid.to_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')
