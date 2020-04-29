@@ -10,10 +10,10 @@ import warnings
 warnings.simplefilter('ignore')
 
 # import model
-embedder = SentenceTransformer('model1') #this or the model we trained and saved
+embedder = SentenceTransformer('bert-large-nli-mean-tokens') #this or the model we trained and saved
 
 
-def sem_search(query, model, corpus, corpus_embeddings,df):
+def sem_search(query, model, corpus, corpus_embeddings):
     queries = [query]
     query_embeddings = model.encode(queries)
 
@@ -27,25 +27,25 @@ def sem_search(query, model, corpus, corpus_embeddings,df):
 
         output = []
         for idx, distance in results[0:closest_n]:
-            output.append([df.iloc[idx, 1], df.iloc[idx, 3],
-                           df.iloc[idx, 4], df.iloc[idx, 5], round(1-distance, 4)])
+            output.append([corpus.iloc[idx, 1].strip(), corpus.iloc[idx, 3].strip(),
+                           corpus.iloc[idx, 4].strip(), corpus.iloc[idx, 5].strip(), round(1-distance, 4)])
 
 
         table = prettytable.PrettyTable(['Abstract','Authors','Title','Journal','Score'])
         for i in output:
-            abstract = str(i[0])
+            abstract = i[0]
             abstract = textwrap.fill(abstract, width=75)
             abstract = abstract + '\n\n'
-            author = str(i[1])
+            author = i[2]
             author = textwrap.fill(author, width=75)
             author = author + '\n\n'
-            title = str(i[2])
+            title = i[3]
             title = textwrap.fill(title, width=75)
             title = title + '\n\n'
-            journal = str(i[3])
+            journal = i[4]
             journal = textwrap.fill(journal, width=75)
             journal = journal + '\n\n'
-            distance = i[4]
+            distance = i[5]
             table.add_row([abstract, author, title, journal, distance])
         print("\n\n======================\n\n")
         print("\nTop 5 most similar articles in corpus:")
@@ -54,17 +54,13 @@ def sem_search(query, model, corpus, corpus_embeddings,df):
 
 
 # load corpus
-df_covid = pd.read_pickle('compelete_dataframe.pkl')
 df_covid = pd.read_pickle('preprocessed_dataframe_withabs.pkl')
 
 # asking the user
 query = input('What would you like to know from CORD-19? ')
-query = str(query)
 print('\nUse abstracts:')
-
-sem_search(query, embedder, df_covid['abstract'].to_list(), df_covid['abs_embeddings'].to_list(),df_covid)
 print(sem_search(query, embedder, df_covid, df_covid['abs_embeddings']))
 
 print('\nUse full text:')
-sem_search(query, embedder, df_covid['body_text'].to_list(), df_covid['body_embeddings'].to_list(),df_covid)
+sem_search(query, embedder, df_covid, df_covid['body_embeddings'])
 
