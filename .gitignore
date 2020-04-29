@@ -3,6 +3,10 @@ data/
 scripts/.idea/
 **/CORD-19-research-challenge
 .DS_Store
+scripts/Clustering_version3.ipynb
+scripts/clustering+topic modeling.ipynb	
+scripts/json_preprocessing.ipynb	
+scripts/Clustering +lda version 05.ipynb	
 
 # Byte-compiled / optimized / DLL files
 __pycache__/
