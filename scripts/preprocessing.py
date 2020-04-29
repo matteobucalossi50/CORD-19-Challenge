@@ -140,3 +140,14 @@ def clean_text(text):
 # pd.DataFrame([[df_covid.shape[0], df_covid.shape[1]]], columns=['# rows', '# columns'])
 # # save dataframe
 # df_covid.to_pickle('/Users/Matteo/Desktop/ML1/project/data/preprocessed_dataframe.pkl')
+
+def nan_checker(df):
+    # Get the variables with NaN, their proportion of NaN and dtype
+    df_nan = pd.DataFrame([[var, df[var].isna().sum() / df.shape[0], df[var].dtype]
+                           for var in df.columns if df[var].isna().sum() > 0],
+                          columns=['var', 'proportion', 'dtype'])
+
+    # Sort df_nan in accending order of the proportion of NaN
+    df_nan = df_nan.sort_values(by='proportion', ascending=False).reset_index(drop=True)
+
+    return df_nan
