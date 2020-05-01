@@ -13,7 +13,7 @@ warnings.simplefilter('ignore')
 embedder = SentenceTransformer('model1') # this or the model we trained and saved
 
 
-def sem_search(query, model, corpus, corpus_embeddings,df):
+def sem_search(query, model, corpus_embeddings, df):
     queries = [query]
     query_embeddings = model.encode(queries)
 
@@ -57,8 +57,8 @@ df_covid = pd.read_pickle('compelete_dataframe.pkl')
 query = input('What would you like to know from CORD-19? ')
 query = str(query)
 print('\nUse abstracts:')
-sem_search(query, embedder, df_covid['abstract'].to_list(), df_covid['abs_embeddings'].to_list(),df_covid)
+sem_search(query, embedder, df_covid['abs_embeddings'].to_list(), df_covid)
 
 print('\nUse full text:')
-sem_search(query, embedder, df_covid['body_text'].to_list(), df_covid['body_embeddings'].to_list(),df_covid)
+sem_search(query, embedder, df_covid['body_embeddings'].to_list(), df_covid)
 
