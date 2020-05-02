@@ -1,3 +1,3 @@
 *we'll update here soon!*
 # CORD-19-Challenge
-Identify COVID-19 risk factors and transmission dynamics using ML and NLP on the COVID-19 Open Research Dataset 
+Clustering and searching scholar articles of the COVID-19 Open Research Dataset using SciBERT and Sentence Transformers
